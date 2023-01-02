@@ -5,30 +5,54 @@ class Currencies extends Component {
         super(props);
         // later on use hooks?
         this.state = {
-            currencies: []
+            currencies: [],
+            rates: []
         }
     }
 
     componentDidMount() {
-        fetch('/api/currencies')
+        /*fetch('/api/currencies')
             .then(res => res.json())
             .then(currencies => {
                 this.setState({currencies : currencies})
+            })*/
+        fetch('/api/rates/')
+            .then(res => res.json())
+            .then(rates => {
+                this.setState({rates : rates})
             })
-
     }
 
     render() {
         return (
             <div>
-                <h1>Hello world React 2</h1>
-                <ul>
-                    {
-                        this.state.currencies.map((currency, index) => {
-                            return <li key={index}>{currency.name} {currency.value}</li>
-                        })
-                    }
-                </ul>
+                <table>
+                    <thead>
+                        <tr>
+                            <th><b>Date & Time</b></th>
+                            <th>Currency From</th>
+                            <th>Amount 1</th>
+                            <th>Currency To</th>
+                            <th>Amount 2</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            this.state.rates.map((rate, index) => {
+                                return (
+                                <tr key={index}>
+                                    <td>{new Date().toLocaleString()}</td>
+                                    <td>USD</td>
+                                    <td>1</td>
+                                    <td>{rate[0]}</td>
+                                    <td>{rate[1]}</td>
+                                    <td>Live Price</td>
+                                </tr>)
+                            })
+                        }
+                    </tbody>
+                </table>
             </div>
         )
     }
